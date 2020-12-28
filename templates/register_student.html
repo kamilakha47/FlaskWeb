@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Import the Bootstrap stylesheet -->
+  <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+
+  <title>Register</title>
+</head>
+
+<body>
+<div class="container-md mt-2">
+  <div class="row">
+    <div class="col">
+      <h2>Student Register</h2>
+      <hr>
+    </div>
+  </div>
+</div>
+
+<div class="container-md">
+    <div class="form-group">
+      <div class="row">
+        <div class="col sm-6">
+          <label>First Name</label>
+          <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Your first name">
+        </div>
+        <div class="col sm-6">
+          <label>Last Name</label>
+          <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Your last name">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" id="username" name="username" placeholder="Select a username">
+    </div>
+  
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+    </div>
+  
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="Type a password">
+    </div>
+    <button type="submit" class="btn btn-primary mt-2" onclick="goBack()">Back</button>
+    <button type="submit" class="btn btn-primary mt-2" onclick="submit_register()">Create</button>
+</div>
+</form>
+<script src="../static/js/bootstrap.bundle.min.js"></script>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
+
+<script>
+function submit_register(){
+  let firstname = document.getElementById("firstname");
+  let lastname = document.getElementById("lastname");
+  let username = document.getElementById("username");
+  let email = document.getElementById("email");
+  let password = document.getElementById("password");
+
+  const entry = {
+      firstname: firstname.value,
+      lastname: lastname.value,
+      username: username.value,
+      email: email.value,
+      password: password.value
+  };
+  fetch (`${window.origin}/register/student`, {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify(entry),
+    cache: "no-cache",
+    headers: new Headers({
+      "content-type": "application/json"
+    })
+  })
+    .then(function (response) {
+      if (response.status !== 200) {
+        console.log(`Looks like there was a problem. Status code: ${response.status}`);
+        return;
+      }
+      response.json().then(function (data) {
+        console.log(data);
+      });
+    })
+    .catch(function (error) {
+      console.log("Fetch error: " + error);
+  });
+}
+</script>
+</body>
+</html>
+
